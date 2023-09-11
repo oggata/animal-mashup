@@ -157,10 +157,11 @@ var Version = "v0.0020";
           camera.useFramingBehavior = true;
 
 
-camera.useNaturalPinchZoom = false;
-camera.wheelPrecision = 0.1;
-camera.pinchPrecision = 1;
-camera.panningSensibility = 1;
+//camera.useNaturalPinchZoom = false;
+//camera.wheelPrecision = 0.1;
+//camera.pinchPrecision = 1;
+//camera.panningSensibility = 1;
+camera.wheelPrecision = 1;
 
 //var zoomSpeed = 9.95876;
 //var cameraRadius = 400;
@@ -342,7 +343,7 @@ camera.zoomToMouseLocation = true;
             EditTypeNumber = 3;
             SwitchGizmo();
           });
-          var token7 = new BABYLON.GUI.Image("token2", "./image/button/scale.png");
+          var token7 = new BABYLON.GUI.Image("token2", "./image/button/scale.png?aa");
           token7.widthInPixels = ButtonSizeW;
           token7.heightInPixels = ButtonSizeW;
           panel2.addControl(token7);
@@ -550,7 +551,7 @@ camera.zoomToMouseLocation = true;
     var text1 = new BABYLON.GUI.TextBlock("text1");
     text1.fontFamily = "Helvetica";
     text1.textWrapping = true;
-    text1.text = "さまざまなパーツを組み合わせて、動物を作りましょう！(" + Version + ")";
+    text1.text = "さまざまなパーツを組み合わせて、\n自分だけのオリジナルの\n動物を作りましょう！(" + Version + ")";
     text1.color = "white";
     text1.fontSize = "14px";
     rectangle.addControl(text1);
