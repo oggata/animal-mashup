@@ -145,7 +145,7 @@
         var EditTypeNumber = 1;
         var ButtonSizeW = 50;
         var IconSizeW = 70;
-
+var Version = "v0.0020";
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
           var scene = new BABYLON.Scene(engine);
@@ -550,7 +550,7 @@ camera.zoomToMouseLocation = true;
     var text1 = new BABYLON.GUI.TextBlock("text1");
     text1.fontFamily = "Helvetica";
     text1.textWrapping = true;
-    text1.text = "さまざまなパーツを組み合わせて、動物を作りましょう！";
+    text1.text = "さまざまなパーツを組み合わせて、動物を作りましょう！(" + Version + ")";
     text1.color = "white";
     text1.fontSize = "14px";
     rectangle.addControl(text1);
