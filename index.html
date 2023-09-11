@@ -66,11 +66,11 @@
           });
         };
         var PartsBody = ['parts_body_a1_llama', 'parts_body_a2_bird', 'parts_body_a3_penguin', 'parts_body_a4_gorilla', 'parts_body_a5_lizard', 'parts_body_a6_snake', 'parts_body_a7_shark', 'parts_body_a8_pig', 'parts_body_a9_crocodile']
-        var PartsHead = ['parts_head_b1_ostrich', 'parts_head_b2_squirrel', 'parts_head_b3_bear', 'parts_head_b4_bird', 'parts_head_b5_pengin', 'parts_head_b6_shark', 'parts_head_b7_crocodile', 'parts_head_b8_elephant']
-        var PartsEar = ['parts_ear_c1_goat', 'parts_ear_c2_dog', 'parts_ear_c3_goat', 'parts_ear_c4_bear', 'parts_ear_c5_rabbit', 'parts_ear_c6_chicken']
+        var PartsHead = ['parts_head_b3_bear','parts_head_b5_pengin', 'parts_head_b6_shark', 'parts_head_b7_crocodile', 'parts_head_b8_elephant']
+        var PartsEar = ['parts_ear_c2_dog','parts_ear_c5_rabbit', 'parts_ear_c6_chicken']
         var PartsLeg = ['parts_leg_d1_duck', 'parts_leg_d2_cat', 'parts_leg_d3_camereon', 'parts_leg_d4_bear', 'parts_leg_d5_house', 'parts_leg_d6_octpas', 'parts_leg_d7_ostrich', 'parts_leg_d8_elephant']
-        var PartsTail = ['parts_tail_e1_cat', 'parts_tail_e2_whale', 'parts_tail_e3_raccoon', 'parts_tail_e4_lion']
-        var PartsOption = ['parts_option_f1_bird', 'parts_option_f2_squid', 'parts_option_f3_turtle']
+        var PartsTail = ['parts_tail_e3_raccoon', 'parts_tail_e4_lion']
+        var PartsOption = ['parts_option_f2_squid', 'parts_option_f3_turtle']
         //全部pushした配列を作っておく
         var PartsAll = [];
         PartsAll = PartsAll.concat(PartsBody);
@@ -95,6 +95,7 @@
             meshes[0].position.y = 0;
             meshes[0].position.z = 0;
             AddParts(meshes[0]);
+            SwitchButtonOnOff();
           });
         }
         var pickedMesh = null;
@@ -142,6 +143,9 @@
         }
         //1:移動 2:拡大 3:回転
         var EditTypeNumber = 1;
+          var ButtonSizeW = 50;
+          var IconSizeW = 70;
+
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
           var scene = new BABYLON.Scene(engine);
@@ -183,7 +187,7 @@
           panel3.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel3.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel3.widthInPixels = 1000;
-          panel3.heightInPixels = 60;
+          panel3.heightInPixels = IconSizeW;
           panel3.isVertical = false;
           panel3.paddingLeftInPixels = 20;
           panel.addControl(panel3);
@@ -193,7 +197,7 @@
           panel4.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel4.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel4.widthInPixels = 1000;
-          panel4.heightInPixels = 60;
+          panel4.heightInPixels = IconSizeW;
           panel4.isVertical = false;
           panel4.paddingLeftInPixels = 20;
           panel.addControl(panel4);
@@ -203,7 +207,7 @@
           panel5.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel5.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel5.widthInPixels = 1000;
-          panel5.heightInPixels = 60;
+          panel5.heightInPixels = IconSizeW;
           panel5.isVertical = false;
           panel5.paddingLeftInPixels = 20;
           panel.addControl(panel5);
@@ -212,7 +216,7 @@
           panel6.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel6.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel6.widthInPixels = 1000;
-          panel6.heightInPixels = 60;
+          panel6.heightInPixels = IconSizeW;
           panel6.isVertical = false;
           panel6.paddingLeftInPixels = 20;
           panel.addControl(panel6);
@@ -221,7 +225,7 @@
           panel7.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel7.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel7.widthInPixels = 1000;
-          panel7.heightInPixels = 60;
+          panel7.heightInPixels = IconSizeW;
           panel7.isVertical = false;
           panel7.paddingLeftInPixels = 20;
           panel.addControl(panel7);
@@ -230,21 +234,14 @@
           panel8.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
           panel8.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           panel8.widthInPixels = 1000;
-          panel8.heightInPixels = 60;
+          panel8.heightInPixels = IconSizeW;
           panel8.isVertical = false;
           panel8.paddingLeftInPixels = 20;
           panel.addControl(panel8);
-          //ロゴ
-          var logo = new BABYLON.GUI.Image("logo", "./image/logo.png?11");
-          logo.widthInPixels = 200;
-          logo.heightInPixels = 100;
-          logo.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          logo.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-          panel2.addControl(logo);
-          /*
+
           var tokenSpacer1 = new BABYLON.GUI.Image("tokenSpacer1", "");
-          tokenSpacer1.widthInPixels = 10;
-          tokenSpacer1.heightInPixels = 10;
+          tokenSpacer1.widthInPixels = 40;
+          tokenSpacer1.heightInPixels = 40;
 
           var tokenSpacer2 = new BABYLON.GUI.Image("tokenSpacer2", "");
           tokenSpacer2.widthInPixels = 10;
@@ -257,23 +254,33 @@
           var tokenSpacer4 = new BABYLON.GUI.Image("tokenSpacer4", "");
           tokenSpacer4.widthInPixels = 10;
           tokenSpacer4.heightInPixels = 10;
-          */
+
+          //ロゴ
+          var logo = new BABYLON.GUI.Image("logo", "./image/logo.png?22");
+          logo.widthInPixels = 200;
+          logo.heightInPixels = 100;
+          logo.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          logo.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          panel2.addControl(logo);
+          panel2.addControl(tokenSpacer1);
+/*
           var token1 = new BABYLON.GUI.Image("token1", "./image/button/file.png");
           token1.widthInPixels = 50;
           token1.heightInPixels = 50;
           panel2.addControl(token1);
           //panel2.addControl(tokenSpacer1);
-          var token2 = new BABYLON.GUI.Image("token2", "./image/button/add.png");
-          token2.widthInPixels = 50;
-          token2.heightInPixels = 50;
+*/
+          var token2 = new BABYLON.GUI.Image("token2", "./image/button/object.png");
+          token2.widthInPixels = ButtonSizeW;
+          token2.heightInPixels = ButtonSizeW;
           panel2.addControl(token2);
           //panel2.addControl(tokenSpacer2);
           token2.onPointerDownObservable.add(() => {
             SwitchButtonOnOff();
           });
           var token3 = new BABYLON.GUI.Image("token2", "./image/button/camera.png");
-          token3.widthInPixels = 50;
-          token3.heightInPixels = 50;
+          token3.widthInPixels = ButtonSizeW;
+          token3.heightInPixels = ButtonSizeW;
           panel2.addControl(token3);
           token3.onPointerDownObservable.add(() => {
             camera.setTarget(BABYLON.Vector3.Zero());
@@ -281,8 +288,8 @@
             camera.setPosition(new BABYLON.Vector3(20, 20, 20));
           });
           var token4 = new BABYLON.GUI.Image("token2", "./image/button/delete.png");
-          token4.widthInPixels = 50;
-          token4.heightInPixels = 50;
+          token4.widthInPixels = ButtonSizeW;
+          token4.heightInPixels = ButtonSizeW;
           panel2.addControl(token4);
           token4.onPointerDownObservable.add(() => {
             //for(var i = 0; i< PartsArray.length; i++){
@@ -293,8 +300,8 @@
             }
           });
           var token5 = new BABYLON.GUI.Image("token2", "./image/button/move.png");
-          token5.widthInPixels = 50;
-          token5.heightInPixels = 50;
+          token5.widthInPixels = ButtonSizeW;
+          token5.heightInPixels = ButtonSizeW;
           panel2.addControl(token5);
           token5.onPointerDownObservable.add(() => {
             console.log("v1");
@@ -302,8 +309,8 @@
             SwitchGizmo();
           });
           var token6 = new BABYLON.GUI.Image("token2", "./image/button/rotate.png");
-          token6.widthInPixels = 50;
-          token6.heightInPixels = 50;
+          token6.widthInPixels = ButtonSizeW;
+          token6.heightInPixels = ButtonSizeW;
           panel2.addControl(token6);
           token6.onPointerDownObservable.add(() => {
             console.log("v2");
@@ -311,8 +318,8 @@
             SwitchGizmo();
           });
           var token7 = new BABYLON.GUI.Image("token2", "./image/button/scale.png");
-          token7.widthInPixels = 50;
-          token7.heightInPixels = 50;
+          token7.widthInPixels = ButtonSizeW;
+          token7.heightInPixels = ButtonSizeW;
           panel2.addControl(token7);
           token7.onPointerDownObservable.add(() => {
             console.log("v3");
@@ -320,18 +327,27 @@
             SwitchGizmo();
           });
           var token8 = new BABYLON.GUI.Image("token2", "./image/button/download.png");
-          token8.widthInPixels = 50;
-          token8.heightInPixels = 50;
+          token8.widthInPixels = ButtonSizeW;
+          token8.heightInPixels = ButtonSizeW;
           panel2.addControl(token8);
           token8.onPointerDownObservable.add(() => {
             exportAsSTL(scene);
           });
+
+         var token9 = new BABYLON.GUI.Image("token2", "./image/button/print.png");
+          token9.widthInPixels = ButtonSizeW;
+          token9.heightInPixels = ButtonSizeW;
+          panel2.addControl(token9);
+          token8.onPointerDownObservable.add(() => {
+            exportAsSTL(scene);
+          });
+
           // 10x5でパーツを表示する
           var buttonId = 0;
           for (var c = 0; c < PartsBody.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsBody[" + c + "] + '.png?11')");
-            eval("num_" + buttonId + ".width = '60px';");
-            eval("num_" + buttonId + ".height = '60px';");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".partstype = 'body';");
             eval("panel3.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -339,8 +355,8 @@
           }
           for (var c = 0; c < PartsHead.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsHead[" + c + "] + '.png?11')");
-            eval("num_" + buttonId + ".width = '60px';");
-            eval("num_" + buttonId + ".height = '60px';");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel4.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -348,8 +364,8 @@
           }
           for (var c = 0; c < PartsEar.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsEar[" + c + "] + '.png?11')");
-            eval("num_" + buttonId + ".width = '60px';");
-            eval("num_" + buttonId + ".height = '60px';");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel5.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -357,8 +373,8 @@
           }
           for (var c = 0; c < PartsLeg.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsLeg[" + c + "] + '.png?11')");
-            eval("num_" + buttonId + ".width = '60px';");
-            eval("num_" + buttonId + ".height = '60px';");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel6.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -366,8 +382,8 @@
           }
           for (var c = 0; c < PartsTail.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsTail[" + c + "] + '.png?11')");
-            eval("num_" + buttonId + ".width = '60px';");
-            eval("num_" + buttonId + ".height = '60px';");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel7.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -474,6 +490,7 @@
             }
           }
           */
+          SwitchButtonOnOff();
           return scene;
         };
 
