@@ -338,8 +338,9 @@
           token9.widthInPixels = ButtonSizeW;
           token9.heightInPixels = ButtonSizeW;
           panel2.addControl(token9);
-          token8.onPointerDownObservable.add(() => {
-            exportAsSTL(scene);
+          token9.onPointerDownObservable.add(() => {
+            alert("3Dプリンターに接続して印刷をします");
+            //exportAsSTL(scene);
           });
 
           // 10x5でパーツを表示する
