@@ -87,7 +87,7 @@
           //var FileName = PartsFileNames[fileNumber];
           var box4 = BABYLON.SceneLoader.ImportMesh("", "./stl/", fileName + ".stl", scene, function (meshes) {
             //alert(meshes.length);
-            meshes[0].addBehavior(new BABYLON.PointerDragBehavior());
+            //meshes[0].addBehavior(new BABYLON.PointerDragBehavior());
             meshes[0].scaling.x = 0.3;
             meshes[0].scaling.y = 0.3;
             meshes[0].scaling.z = 0.3;
@@ -143,8 +143,8 @@
         }
         //1:移動 2:拡大 3:回転
         var EditTypeNumber = 1;
-          var ButtonSizeW = 50;
-          var IconSizeW = 70;
+        var ButtonSizeW = 50;
+        var IconSizeW = 70;
 
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
@@ -155,6 +155,24 @@
           camera.setPosition(new BABYLON.Vector3(20, 20, 20));
           camera.attachControl(canvas, true);
           camera.useFramingBehavior = true;
+
+
+camera.useNaturalPinchZoom = false;
+//var zoomSpeed = 9.95876;
+//var cameraRadius = 400;
+/*
+camera.useNaturalPinchZoom = false;
+camera.wheelPrecision = zoomSpeed;
+camera.pinchPrecision = 7;
+camera.panningSensibility = 80;
+////camera.useNaturalPinchZoom = true;
+camera.zoomToMouseLocation = true;
+*/
+/*
+  let cameraTarget = new BABYLON.Vector3(cameraTargetX, cameraTargetY, cameraTargetZ);
+  camera.setTarget(cameraTarget);
+*/
+
           // GUI
           var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
           //パーツ用のパネル
@@ -270,6 +288,9 @@
           panel2.addControl(token1);
           //panel2.addControl(tokenSpacer1);
 */
+
+          //BABYLON.GUI.Button.CreateImageOnlyButton
+
           var token2 = new BABYLON.GUI.Image("token2", "./image/button/object.png");
           token2.widthInPixels = ButtonSizeW;
           token2.heightInPixels = ButtonSizeW;
@@ -491,6 +512,46 @@
             }
           }
           */
+
+
+    // GUI
+    //var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+    
+    /*
+    var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button1.width = "150px"
+    button1.height = "150px";
+    //button1
+    button1.color = "white";
+    button1.cornerRadius = 20;
+    button1.background = "green";
+    button1.onPointerUpObservable.add(function() {
+        alert("you did it!");
+    });
+    advancedTexture.addControl(button1); 
+    */
+
+    //モーダル
+    var rectangle = new BABYLON.GUI.Rectangle("rect");
+    rectangle.background = "black";
+    rectangle.color = "white";
+    rectangle.width = "400px";
+    rectangle.height = "200px";
+    //apply line spacing on enter
+    rectangle.onPointerDownObservable.add(() => {
+      //alert("xx");
+      rectangle.isVisible = false;
+    });
+    advancedTexture.addControl(rectangle);
+    var text1 = new BABYLON.GUI.TextBlock("text1");
+    text1.fontFamily = "Helvetica";
+    text1.textWrapping = true;
+    text1.text = "さまざまなパーツを組み合わせて、動物を作りましょう！";
+    text1.color = "white";
+    text1.fontSize = "14px";
+    rectangle.addControl(text1);
+
+
           SwitchButtonOnOff();
           return scene;
         };
