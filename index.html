@@ -65,6 +65,7 @@
             disableWebGL2Support: false
           });
         };
+        //パーツを配列に列挙しておく
         var PartsBody = ['parts_body_a1_llama', 'parts_body_a2_bird', 'parts_body_a3_penguin', 'parts_body_a4_gorilla', 'parts_body_a5_lizard', 'parts_body_a6_snake', 'parts_body_a7_shark', 'parts_body_a8_pig', 'parts_body_a9_crocodile']
         var PartsHead = ['parts_head_b3_bear','parts_head_b5_pengin', 'parts_head_b6_shark', 'parts_head_b7_crocodile', 'parts_head_b8_elephant']
         var PartsEar = ['parts_ear_c2_dog','parts_ear_c5_rabbit', 'parts_ear_c6_chicken']
@@ -78,16 +79,12 @@
         PartsAll = PartsAll.concat(PartsEar);
         PartsAll = PartsAll.concat(PartsLeg);
         PartsAll = PartsAll.concat(PartsTail);
-        //console.log(PartsAll);
         var PartsArray = [];
         var AddParts = function (parts) {
           PartsArray.push(parts);
         }
         var ImportPartsSTL003 = function (scene, AddParts, fileName) {
-          //var FileName = PartsFileNames[fileNumber];
           var box4 = BABYLON.SceneLoader.ImportMesh("", "./stl/", fileName + ".stl", scene, function (meshes) {
-            //alert(meshes.length);
-            //meshes[0].addBehavior(new BABYLON.PointerDragBehavior());
             meshes[0].scaling.x = 0.3;
             meshes[0].scaling.y = 0.3;
             meshes[0].scaling.z = 0.3;
@@ -115,6 +112,7 @@
             }
           }
         }
+        //ギズモの準備
         var sGizmo;
         var rGizmo;
         var mGizmo;
@@ -145,7 +143,7 @@
         var EditTypeNumber = 1;
         var ButtonSizeW = 50;
         var IconSizeW = 70;
-var Version = "v0.0020";
+        var Version = "v0.0020";
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
           var scene = new BABYLON.Scene(engine);
@@ -155,31 +153,24 @@ var Version = "v0.0020";
           camera.setPosition(new BABYLON.Vector3(20, 20, 20));
           camera.attachControl(canvas, true);
           camera.useFramingBehavior = true;
-
-
-//camera.useNaturalPinchZoom = false;
-//camera.wheelPrecision = 0.1;
-camera.pinchPrecision = 80;
-//camera.panningSensibility = 1;
-camera.wheelPrecision = 1;
-
-//var zoomSpeed = 9.95876;
-//var cameraRadius = 400;
-/*
-camera.useNaturalPinchZoom = false;
-camera.wheelPrecision = zoomSpeed;
-camera.pinchPrecision = 7;
-camera.panningSensibility = 80;
-////camera.useNaturalPinchZoom = true;
-camera.zoomToMouseLocation = true;
-*/
-/*
-  let cameraTarget = new BABYLON.Vector3(cameraTargetX, cameraTargetY, cameraTargetZ);
-  camera.setTarget(cameraTarget);
-*/
-
+          //camera.useNaturalPinchZoom = false;
+          //camera.wheelPrecision = 0.1;
+          camera.pinchPrecision = 80;
+          //camera.panningSensibility = 1;
+          camera.wheelPrecision = 1;
+          //var zoomSpeed = 9.95876;
+          //var cameraRadius = 400;
+          /*
+          camera.useNaturalPinchZoom = false;
+          camera.wheelPrecision = zoomSpeed;
+          camera.pinchPrecision = 7;
+          camera.panningSensibility = 80;
+            ////camera.useNaturalPinchZoom = true;
+            camera.zoomToMouseLocation = true;
+          */
           // GUI
           var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+          /*
           //パーツ用のパネル
           var partsPanel = new BABYLON.GUI.StackPanel();
           partsPanel.width = "220px";
@@ -188,6 +179,7 @@ camera.zoomToMouseLocation = true;
           partsPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           partsPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
           advancedTexture.addControl(partsPanel);
+          */
           //////////////////////////////////
           //ベースとなるパネル
           var panel = new BABYLON.GUI.StackPanel();
@@ -293,31 +285,34 @@ camera.zoomToMouseLocation = true;
           panel2.addControl(token1);
           //panel2.addControl(tokenSpacer1);
 */
-
-          //BABYLON.GUI.Button.CreateImageOnlyButton
-
-          var token2 = new BABYLON.GUI.Image("token2", "./image/button/object.png");
-          token2.widthInPixels = ButtonSizeW;
-          token2.heightInPixels = ButtonSizeW;
-          panel2.addControl(token2);
+          //var menu2 = BABYLON.GUI.Button.CreateSimpleButton("./image/button/object.png", "./image/button/object.png");
+          var menu2 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/object.png");
+          menu2.color = "transparent"
+          menu2.widthInPixels = ButtonSizeW;
+          menu2.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu2);
           //panel2.addControl(tokenSpacer2);
-          token2.onPointerDownObservable.add(() => {
+          menu2.onPointerDownObservable.add(() => {
             SwitchButtonOnOff();
           });
-          var token3 = new BABYLON.GUI.Image("token2", "./image/button/camera.png");
-          token3.widthInPixels = ButtonSizeW;
-          token3.heightInPixels = ButtonSizeW;
-          panel2.addControl(token3);
-          token3.onPointerDownObservable.add(() => {
+          //var menu3 = new BABYLON.GUI.Image("menu2", "./image/button/camera.png");
+          var menu3 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/camera.png");
+          menu3.color = "transparent"
+          menu3.widthInPixels = ButtonSizeW;
+          menu3.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu3);
+          menu3.onPointerDownObservable.add(() => {
             camera.setTarget(BABYLON.Vector3.Zero());
             camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
             camera.setPosition(new BABYLON.Vector3(20, 20, 20));
           });
-          var token4 = new BABYLON.GUI.Image("token2", "./image/button/delete.png");
-          token4.widthInPixels = ButtonSizeW;
-          token4.heightInPixels = ButtonSizeW;
-          panel2.addControl(token4);
-          token4.onPointerDownObservable.add(() => {
+          //var menu4 = new BABYLON.GUI.Image("menu2", "./image/button/delete.png");
+          var menu4 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/delete.png");
+          menu4.color = "transparent"
+          menu4.widthInPixels = ButtonSizeW;
+          menu4.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu4);
+          menu4.onPointerDownObservable.add(() => {
             //for(var i = 0; i< PartsArray.length; i++){
             //    PartsArray[i].dispose();
             //}
@@ -325,46 +320,56 @@ camera.zoomToMouseLocation = true;
               pickedMesh.dispose();
             }
           });
-          var token5 = new BABYLON.GUI.Image("token2", "./image/button/move.png");
-          token5.widthInPixels = ButtonSizeW;
-          token5.heightInPixels = ButtonSizeW;
-          panel2.addControl(token5);
-          token5.onPointerDownObservable.add(() => {
+          //var menu5 = new BABYLON.GUI.Image("menu2", "./image/button/move.png");
+          var menu5 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move.png");
+          menu5.color = "transparent"
+          menu5.widthInPixels = ButtonSizeW;
+          menu5.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu5);
+          menu5.onPointerDownObservable.add(() => {
             console.log("v1");
             EditTypeNumber = 1;
             SwitchGizmo();
           });
-          var token6 = new BABYLON.GUI.Image("token2", "./image/button/rotate.png");
-          token6.widthInPixels = ButtonSizeW;
-          token6.heightInPixels = ButtonSizeW;
-          panel2.addControl(token6);
-          token6.onPointerDownObservable.add(() => {
+         //var menu6 = new BABYLON.GUI.Image("menu2", "./image/button/rotate.png");
+          var menu6 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/rotate.png");
+          menu6.color = "transparent"
+          menu6.widthInPixels = ButtonSizeW;
+          menu6.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu6);
+          menu6.onPointerDownObservable.add(() => {
             console.log("v2");
             EditTypeNumber = 3;
             SwitchGizmo();
           });
-          var token7 = new BABYLON.GUI.Image("token2", "./image/button/scale.png?aa");
-          token7.widthInPixels = ButtonSizeW;
-          token7.heightInPixels = ButtonSizeW;
-          panel2.addControl(token7);
-          token7.onPointerDownObservable.add(() => {
+          //var menu7 = new BABYLON.GUI.Image("menu2", "./image/button/scale.png?aa");
+          var menu7 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/scale.png");
+          menu7.color = "transparent"
+          menu7.widthInPixels = ButtonSizeW;
+          menu7.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu7);
+          menu7.onPointerDownObservable.add(() => {
             console.log("v3");
             EditTypeNumber = 2;
             SwitchGizmo();
           });
-          var token8 = new BABYLON.GUI.Image("token2", "./image/button/download.png");
-          token8.widthInPixels = ButtonSizeW;
-          token8.heightInPixels = ButtonSizeW;
-          panel2.addControl(token8);
-          token8.onPointerDownObservable.add(() => {
+          //var menu8 = new BABYLON.GUI.Image("menu2", "./image/button/download.png");
+          var menu8 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/download.png");
+          menu8.color = "transparent"
+          menu8.widthInPixels = ButtonSizeW;
+          menu8.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu8);
+          menu8.onPointerDownObservable.add(() => {
             exportAsSTL(scene);
           });
 
-         var token9 = new BABYLON.GUI.Image("token2", "./image/button/print.png");
-          token9.widthInPixels = ButtonSizeW;
-          token9.heightInPixels = ButtonSizeW;
-          panel2.addControl(token9);
-          token9.onPointerDownObservable.add(() => {
+         //var menu9 = new BABYLON.GUI.Image("menu2", "./image/button/print.png");
+         var menu9 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/print.png");
+         menu9.color = "transparent"
+          menu9.widthInPixels = ButtonSizeW;
+          menu9.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu9);
+          menu9.onPointerDownObservable.add(() => {
             alert("3Dプリンターに接続して印刷をします");
             //exportAsSTL(scene);
           });
@@ -375,6 +380,7 @@ camera.zoomToMouseLocation = true;
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsBody[" + c + "] + '.png?11')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
             eval("num_" + buttonId + ".partstype = 'body';");
             eval("panel3.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -384,6 +390,7 @@ camera.zoomToMouseLocation = true;
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsHead[" + c + "] + '.png?11')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel4.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -393,6 +400,7 @@ camera.zoomToMouseLocation = true;
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsEar[" + c + "] + '.png?11')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel5.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -402,6 +410,7 @@ camera.zoomToMouseLocation = true;
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsLeg[" + c + "] + '.png?11')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel6.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -411,6 +420,7 @@ camera.zoomToMouseLocation = true;
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsTail[" + c + "] + '.png?11')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
             eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel7.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
@@ -439,16 +449,16 @@ camera.zoomToMouseLocation = true;
               box.position.x = 3;
               box.position.z = 4;
           */
-          var utilLayer = new BABYLON.UtilityLayerRenderer(scene);
+          var gizmoLayer = new BABYLON.UtilityLayerRenderer(scene);
           //ギズモ(拡大)
           // Create the gizmo and attach to the box
-          sGizmo = new BABYLON.ScaleGizmo(utilLayer);
+          sGizmo = new BABYLON.ScaleGizmo(gizmoLayer);
           sGizmo.attachedMesh = null;
           // Keep the gizmo fixed to local rotation
           sGizmo.updateGizmoRotationToMatchAttachedMesh = true;
           sGizmo.updateGizmoPositionToMatchAttachedMesh = true;
           //ギズモ(回転)
-          rGizmo = new BABYLON.RotationGizmo(utilLayer, );
+          rGizmo = new BABYLON.RotationGizmo(gizmoLayer, );
           rGizmo.attachedMesh = null;
           rGizmo.xGizmo.dragBehavior.onDragObservable.add(() => {
             var currentMatrix = mesh.getWorldMatrix();
@@ -502,39 +512,277 @@ camera.zoomToMouseLocation = true;
               SetColor();
             }
           }
-          /*
-          scene.onPointerMove = function castRay() {
-            SetColor();
-            var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), camera);
-            var hit = scene.pickWithRay(ray);
-            if (hit.pickedMesh) {
-              //createGUIButton(hit.pickedMesh);
-              hit.pickedMesh.material = material;
-              pickedMesh = hit.pickedMesh;
-              //回転するギズモにアタッチする
-              //gizmo.attachedMesh = pickedMesh;
-              SwitchGizmo();
-            }
-          }
-          */
-
-
     // GUI
     //var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-    
-    /*
+
+    var ToolButtonWidth = 40;
     var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
-    button1.width = "150px"
-    button1.height = "150px";
+    //button1.width = "60px"
+    //button1.height = "60px";
+    button1.widthInPixels = ToolButtonWidth;
+    button1.heightInPixels = ToolButtonWidth;
     //button1
     button1.color = "white";
-    button1.cornerRadius = 20;
+    button1.cornerRadius = 5;
     button1.background = "green";
     button1.onPointerUpObservable.add(function() {
-        alert("you did it!");
+        console.log("you did it!");
     });
-    advancedTexture.addControl(button1); 
+    var button2 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button2.widthInPixels = ToolButtonWidth;
+    button2.heightInPixels = ToolButtonWidth;
+    //button1
+    button2.color = "white";
+    button2.cornerRadius = 5;
+    button2.background = "green";
+    button2.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+    var button3 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button3.widthInPixels = ToolButtonWidth;
+    button3.heightInPixels = ToolButtonWidth;
+    //button1
+    button3.color = "white";
+    button3.cornerRadius = 5;
+    button3.background = "green";
+    button3.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button4 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button4.widthInPixels = ToolButtonWidth;
+    button4.heightInPixels = ToolButtonWidth;
+    //button1
+    button4.color = "white";
+    button4.cornerRadius = 5;
+    button4.background = "green";
+    button4.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button5 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button5.widthInPixels = ToolButtonWidth;
+    button5.heightInPixels = ToolButtonWidth;
+    //button1
+    button5.color = "white";
+    button5.cornerRadius = 5;
+    button5.background = "green";
+    button5.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button6 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button6.widthInPixels = ToolButtonWidth;
+    button6.heightInPixels = ToolButtonWidth;
+    //button1
+    button6.color = "white";
+    button6.cornerRadius = 5;
+    button6.background = "green";
+    button6.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button7 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button7.widthInPixels = ToolButtonWidth;
+    button7.heightInPixels = ToolButtonWidth;
+    //button1
+    button7.color = "white";
+    button7.cornerRadius = 5;
+    button7.background = "green";
+    button7.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button8 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button8.widthInPixels = ToolButtonWidth;
+    button8.heightInPixels = ToolButtonWidth;
+    //button1
+    button8.color = "white";
+    button8.cornerRadius = 5;
+    button8.background = "green";
+    button8.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+    var button9 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
+    button9.widthInPixels = ToolButtonWidth;
+    button9.heightInPixels = ToolButtonWidth;
+    //button1
+    button9.color = "white";
+    button9.cornerRadius = 5;
+    button9.background = "green";
+    button9.onPointerUpObservable.add(function() {
+        console.log("you did it!");
+    });
+
+
+//パーツ用のパネル
+var ToolPanel1 = new BABYLON.GUI.StackPanel();
+ToolPanel1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+ToolPanel1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+ToolPanel1.widthInPixels = 250;
+ToolPanel1.heightInPixels = 200;
+advancedTexture.addControl(ToolPanel1);
+
+
+
+          //ツールの表示用
+          var tpanel2 = new BABYLON.GUI.StackPanel();
+          tpanel2.name = "topHorzStack";
+          tpanel2.heightInPixels = 40;
+          tpanel2.isVertical = false;          
+
+          //ツールの表示用
+          var tpanel3 = new BABYLON.GUI.StackPanel();
+          tpanel3.name = "topHorzStack";
+          tpanel3.heightInPixels = 50;
+          tpanel3.isVertical = false;
+
+          //ツールの表示用
+          var tpanel4 = new BABYLON.GUI.StackPanel();
+          tpanel4.name = "topHorzStack";
+          tpanel4.heightInPixels = 50;
+          tpanel4.isVertical = false;
+
+tpanel2.addControl(button1);
+tpanel2.addControl(button2);
+tpanel2.addControl(button3);
+ToolPanel1.addControl(tpanel2);
+
+         
+         
+tpanel3.addControl(button4);
+tpanel3.addControl(button5);
+tpanel3.addControl(button6);
+ToolPanel1.addControl(tpanel3);
+
+tpanel4.addControl(button7);
+tpanel4.addControl(button8);
+tpanel4.addControl(button9);
+ToolPanel1.addControl(tpanel4);
+
+
+/*
+//ベースとなるパネル
+          var panel = new BABYLON.GUI.StackPanel();
+          panel.name = "mainVertStack";
+          panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          advancedTexture.addControl(panel);
+          //ツールの表示用
+          var panel2 = new BABYLON.GUI.StackPanel();
+          panel2.name = "topHorzStack";
+          panel2.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          panel2.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          panel2.widthInPixels = 1000;
+          panel2.heightInPixels = 100;
+          panel2.isVertical = false;
+          panel.addControl(panel2);
+          //アイテムの表示用
+          var panel3 = new BABYLON.GUI.StackPanel();
+          panel3.name = "bottomHorzStack";
+          panel3.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+          panel3.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          panel3.widthInPixels = 1000;
+          panel3.heightInPixels = IconSizeW;
+          panel3.isVertical = false;
+          panel3.paddingLeftInPixels = 20;
+          panel.addControl(panel3);
+
+*/
+/*
+var partsPanel_3 = new BABYLON.GUI.StackPanel();
+partsPanel_3.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+partsPanel_3.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+partsPanel_3.isVertical = false;
+          partsPanel_3.widthInPixels = 150;
+          partsPanel_3.heightInPixels = 50;
+advancedTexture.addControl(partsPanel_3);
+
+partsPanel_3.addControl(button4);
+*/
+
+
+/*
+var partsPanel_3 = new BABYLON.GUI.StackPanel();
+partsPanel_3.width = "200px";
+partsPanel_3.right = "50px";
+ToolPanel1.bottom = "50px";
+//ToolPanel1.left = "100px";
+//partsPanel2.top = "400px";
+partsPanel_3.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
+partsPanel_3.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
+partsPanel_3.isVertical = false;
+advancedTexture.addControl(partsPanel_3);
+*/
+//partsPanel_3.addControl(button1);
+//partsPanel_3.addControl(button2);
+//partsPanel_3.addControl(button3);
+
+
+
+
+/*
+          //ロゴ
+          var logo = new BABYLON.GUI.Image("logo", "./image/logo.png?22");
+          logo.widthInPixels = 200;
+          logo.heightInPixels = 100;
+          logo.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          logo.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          panel2.addControl(logo);
+          panel2.addControl(tokenSpacer1);
+/*
+          var token1 = new BABYLON.GUI.Image("token1", "./image/button/file.png");
+          token1.widthInPixels = 50;
+          token1.heightInPixels = 50;
+          panel2.addControl(token1);
+          //panel2.addControl(tokenSpacer1);
+*/
+
+          //BABYLON.GUI.Button.CreateImageOnlyButton
+/*
+          var menu2 = new BABYLON.GUI.Image("menu2", "./image/button/object.png");
+          menu2.widthInPixels = ButtonSizeW;
+          menu2.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu2);
+          //panel2.addControl(tokenSpacer2);
+          menu2.onPointerDownObservable.add(() => {
+            SwitchButtonOnOff();
+          });
+
+*/
+
+
+
+/*
+      //var manager = new BABYLON.GUI.GUI3DManager(scene);
+      var panel = new BABYLON.GUI.PlanePanel();
+      panel.margin = 1.5;
+      manager.addControl(panel);
+      panel.linkToTransformNode(anchor);
+      panel.rows = 2;
+      panel.position.x = 90;
+      panel.position.z = 2250;
+      panel.position.y = 150;
+      //manager.addControl(panel);
+      //panel.linkToTransformNode(anchor);
+      //advancedTexture.addControl(panel); 
+*/
+    //パーツ用のパネル
+    /*
+    var partsPanel = new BABYLON.GUI.StackPanel();
+    partsPanel.width = "220px";
+    partsPanel.left = "20px";
+    partsPanel.top = "20px";
+    partsPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+    partsPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
     */
+    //advancedTexture.addControl(panel); 
+    //partsPanel.AddParts(button1);
+
+
+
+    
 
     //モーダル
     var rectangle = new BABYLON.GUI.Rectangle("rect");
