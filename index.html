@@ -152,6 +152,11 @@
           var scene = new BABYLON.Scene(engine);
           var camera = new BABYLON.ArcRotateCamera("camera", 10, 10, 10, new BABYLON.Vector3(0, 10, 0), scene);
           camera.setTarget(BABYLON.Vector3.Zero());
+
+    // Limit camera radius
+    camera.lowerRadiusLimit = 25;
+    camera.upperRadiusLimit = 60;
+
           camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
           camera.setPosition(new BABYLON.Vector3(20, 20, 20));
           camera.attachControl(canvas, true);
