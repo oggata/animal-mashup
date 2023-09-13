@@ -41,6 +41,13 @@
             #canvasZone {
                 width: 100%;
                 height: 100%;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                outline: none;
             }
         </style>
     </head>
@@ -67,10 +74,10 @@
         };
         //パーツを配列に列挙しておく
         var PartsBody = ['parts_body_a1_llama', 'parts_body_a2_bird', 'parts_body_a3_penguin', 'parts_body_a4_gorilla', 'parts_body_a5_lizard', 'parts_body_a6_snake', 'parts_body_a7_shark', 'parts_body_a8_pig', 'parts_body_a9_crocodile']
-        var PartsHead = ['parts_head_b3_bear','parts_head_b5_pengin', 'parts_head_b6_shark', 'parts_head_b7_crocodile', 'parts_head_b8_elephant']
-        var PartsEar = ['parts_ear_c2_dog','parts_ear_c5_rabbit', 'parts_ear_c6_chicken']
+        var PartsHead = ['parts_head_b1_ostrich','parts_head_b2_squirrel','parts_head_b3_bear','parts_head_b4_bird','parts_head_b5_pengin', 'parts_head_b6_shark', 'parts_head_b7_crocodile', 'parts_head_b8_elephant']
+        var PartsEar = ['parts_ear_c1_goat','parts_ear_c2_dog','parts_ear_c3_goat','parts_ear_c4_bear','parts_ear_c5_rabbit', 'parts_ear_c6_chicken']
         var PartsLeg = ['parts_leg_d1_duck', 'parts_leg_d2_cat', 'parts_leg_d3_camereon', 'parts_leg_d4_bear', 'parts_leg_d5_house', 'parts_leg_d6_octpas', 'parts_leg_d7_ostrich', 'parts_leg_d8_elephant']
-        var PartsTail = ['parts_tail_e3_raccoon', 'parts_tail_e4_lion']
+        var PartsTail = ['parts_tail_e1_cat','parts_tail_e2_whale','parts_tail_e3_raccoon', 'parts_tail_e4_lion']
         var PartsOption = ['parts_option_f2_squid', 'parts_option_f3_turtle']
         //全部pushした配列を作っておく
         var PartsAll = [];
@@ -79,6 +86,7 @@
         PartsAll = PartsAll.concat(PartsEar);
         PartsAll = PartsAll.concat(PartsLeg);
         PartsAll = PartsAll.concat(PartsTail);
+        PartsAll = PartsAll.concat(PartsOption);
         var PartsArray = [];
         var AddParts = function (parts) {
           PartsArray.push(parts);
@@ -119,32 +127,26 @@
         //var EditTypeNumber = 1;
         var SwitchGizmo = function () {
           if (EditTypeNumber == 1) {
-            //if(pickedMesh){
             sGizmo.attachedMesh = null;
             rGizmo.attachedMesh = null;
             mGizmo.attachToMesh(pickedMesh);
-            //}
           }
           if (EditTypeNumber == 2) {
-            //if(pickedMesh){
             sGizmo.attachedMesh = pickedMesh;
             rGizmo.attachedMesh = null;
             mGizmo.attachToMesh(null);
-            //}
           }
           if (EditTypeNumber == 3) {
-            //if(pickedMesh){
             sGizmo.attachedMesh = null;
             rGizmo.attachedMesh = pickedMesh;
             mGizmo.attachToMesh(null);
-            //}
           }
         }
         //1:移動 2:拡大 3:回転
         var EditTypeNumber = 1;
         var ButtonSizeW = 50;
         var IconSizeW = 70;
-        var Version = "v00020";
+        var Version = "v00021";
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
           var scene = new BABYLON.Scene(engine);
@@ -171,24 +173,30 @@
           */
           // GUI
           var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-          /*
-          //パーツ用のパネル
-          var partsPanel = new BABYLON.GUI.StackPanel();
-          partsPanel.width = "220px";
-          partsPanel.left = "20px";
-          partsPanel.top = "20px";
-          partsPanel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-          partsPanel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          advancedTexture.addControl(partsPanel);
-          */
-          //////////////////////////////////
-          //ベースとなるパネル
+          
+          var tokenSpacer1 = new BABYLON.GUI.Image("tokenSpacer1", "");
+          tokenSpacer1.widthInPixels = 40;
+          tokenSpacer1.heightInPixels = 40;
+
+          var tokenSpacer2 = new BABYLON.GUI.Image("tokenSpacer2", "");
+          tokenSpacer2.widthInPixels = 10;
+          tokenSpacer2.heightInPixels = 10;
+
+          var tokenSpacer3 = new BABYLON.GUI.Image("tokenSpacer3", "");
+          tokenSpacer3.widthInPixels = 10;
+          tokenSpacer3.heightInPixels = 10;
+
+          var tokenSpacer4 = new BABYLON.GUI.Image("tokenSpacer4", "");
+          tokenSpacer4.widthInPixels = 10;
+          tokenSpacer4.heightInPixels = 10;
+
           var panel = new BABYLON.GUI.StackPanel();
           panel.name = "mainVertStack";
           panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
           panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
           advancedTexture.addControl(panel);
-          //ツールの表示用
+
+          ///////////////////////////////メニューの表示用パネル
           var panel2 = new BABYLON.GUI.StackPanel();
           panel2.name = "topHorzStack";
           panel2.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
@@ -197,7 +205,46 @@
           panel2.heightInPixels = 100;
           panel2.isVertical = false;
           panel.addControl(panel2);
-          //アイテムの表示用
+
+          //ロゴ
+          var logo = new BABYLON.GUI.Image("logo", "./image/logo.png?22");
+          logo.widthInPixels = 200;
+          logo.heightInPixels = 100;
+          logo.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+          logo.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+          panel2.addControl(logo);
+          panel2.addControl(tokenSpacer1);
+
+          var menu2 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/object.png");
+          menu2.color = "transparent"
+          menu2.widthInPixels = ButtonSizeW;
+          menu2.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu2);
+          menu2.onPointerDownObservable.add(() => {
+            SwitchButtonOnOff();
+          });
+
+          var menu3 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/camera.png");
+          menu3.color = "transparent"
+          menu3.widthInPixels = ButtonSizeW;
+          menu3.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu3);
+          menu3.onPointerDownObservable.add(() => {
+            camera.setTarget(BABYLON.Vector3.Zero());
+            camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
+            camera.setPosition(new BABYLON.Vector3(20, 20, 20));
+          });
+
+          var menu8 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/download.png");
+          menu8.color = "transparent"
+          menu8.widthInPixels = ButtonSizeW;
+          menu8.heightInPixels = ButtonSizeW;
+          panel2.addControl(menu8);
+          menu8.onPointerDownObservable.add(() => {
+            exportAsSTL(scene);
+          });
+
+          /////////////////////////////////アイテム表示用パネル
           var panel3 = new BABYLON.GUI.StackPanel();
           panel3.name = "bottomHorzStack";
           panel3.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
@@ -207,7 +254,6 @@
           panel3.isVertical = false;
           panel3.paddingLeftInPixels = 20;
           panel.addControl(panel3);
-          //アイテムの表示用2
           var panel4 = new BABYLON.GUI.StackPanel();
           panel4.name = "bottomHorzStack";
           panel4.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
@@ -217,7 +263,6 @@
           panel4.isVertical = false;
           panel4.paddingLeftInPixels = 20;
           panel.addControl(panel4);
-          //
           var panel5 = new BABYLON.GUI.StackPanel();
           panel5.name = "bottomHorzStack";
           panel5.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
@@ -255,137 +300,13 @@
           panel8.paddingLeftInPixels = 20;
           panel.addControl(panel8);
 
-          var tokenSpacer1 = new BABYLON.GUI.Image("tokenSpacer1", "");
-          tokenSpacer1.widthInPixels = 40;
-          tokenSpacer1.heightInPixels = 40;
 
-          var tokenSpacer2 = new BABYLON.GUI.Image("tokenSpacer2", "");
-          tokenSpacer2.widthInPixels = 10;
-          tokenSpacer2.heightInPixels = 10;
-
-          var tokenSpacer3 = new BABYLON.GUI.Image("tokenSpacer3", "");
-          tokenSpacer3.widthInPixels = 10;
-          tokenSpacer3.heightInPixels = 10;
-
-          var tokenSpacer4 = new BABYLON.GUI.Image("tokenSpacer4", "");
-          tokenSpacer4.widthInPixels = 10;
-          tokenSpacer4.heightInPixels = 10;
-
-          //ロゴ
-          var logo = new BABYLON.GUI.Image("logo", "./image/logo.png?22");
-          logo.widthInPixels = 200;
-          logo.heightInPixels = 100;
-          logo.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-          logo.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
-          panel2.addControl(logo);
-          panel2.addControl(tokenSpacer1);
-/*
-          var token1 = new BABYLON.GUI.Image("token1", "./image/button/file.png");
-          token1.widthInPixels = 50;
-          token1.heightInPixels = 50;
-          panel2.addControl(token1);
-          //panel2.addControl(tokenSpacer1);
-*/
-          //var menu2 = BABYLON.GUI.Button.CreateSimpleButton("./image/button/object.png", "./image/button/object.png");
-          var menu2 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/object.png");
-          //var menu2 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Play Idle");
-          menu2.color = "transparent"
-          menu2.widthInPixels = ButtonSizeW;
-          menu2.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu2);
-          //panel2.addControl(tokenSpacer2);
-          menu2.onPointerDownObservable.add(() => {
-            SwitchButtonOnOff();
-          });
-          //var menu3 = new BABYLON.GUI.Image("menu2", "./image/button/camera.png");
-          var menu3 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/camera.png");
-          menu3.color = "transparent"
-          menu3.widthInPixels = ButtonSizeW;
-          menu3.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu3);
-          menu3.onPointerDownObservable.add(() => {
-            camera.setTarget(BABYLON.Vector3.Zero());
-            camera.ellipsoid = new BABYLON.Vector3(1, 1, 1);
-            camera.setPosition(new BABYLON.Vector3(20, 20, 20));
-          });
-          //var menu4 = new BABYLON.GUI.Image("menu2", "./image/button/delete.png");
-          var menu4 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/delete.png");
-          menu4.color = "transparent"
-          menu4.widthInPixels = ButtonSizeW;
-          menu4.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu4);
-          menu4.onPointerDownObservable.add(() => {
-            //for(var i = 0; i< PartsArray.length; i++){
-            //    PartsArray[i].dispose();
-            //}
-            if (pickedMesh) {
-              pickedMesh.dispose();
-            }
-          });
-          /*
-          //var menu5 = new BABYLON.GUI.Image("menu2", "./image/button/move.png");
-          var menu5 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move.png");
-          menu5.color = "transparent"
-          menu5.widthInPixels = ButtonSizeW;
-          menu5.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu5);
-          menu5.onPointerDownObservable.add(() => {
-            console.log("v1");
-            EditTypeNumber = 1;
-            SwitchGizmo();
-          });
-         //var menu6 = new BABYLON.GUI.Image("menu2", "./image/button/rotate.png");
-          var menu6 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/rotate.png");
-          menu6.color = "transparent"
-          menu6.widthInPixels = ButtonSizeW;
-          menu6.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu6);
-          menu6.onPointerDownObservable.add(() => {
-            console.log("v2");
-            EditTypeNumber = 3;
-            SwitchGizmo();
-          });
-          //var menu7 = new BABYLON.GUI.Image("menu2", "./image/button/scale.png?aa");
-          var menu7 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/scale.png");
-          menu7.color = "transparent"
-          menu7.widthInPixels = ButtonSizeW;
-          menu7.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu7);
-          menu7.onPointerDownObservable.add(() => {
-            console.log("v3");
-            EditTypeNumber = 2;
-            SwitchGizmo();
-          });
-          */
-          //var menu8 = new BABYLON.GUI.Image("menu2", "./image/button/download.png");
-          var menu8 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/download.png");
-          menu8.color = "transparent"
-          menu8.widthInPixels = ButtonSizeW;
-          menu8.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu8);
-          menu8.onPointerDownObservable.add(() => {
-            exportAsSTL(scene);
-          });
-
-         //var menu9 = new BABYLON.GUI.Image("menu2", "./image/button/print.png");
-         var menu9 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/print.png");
-         menu9.color = "transparent"
-          menu9.widthInPixels = ButtonSizeW;
-          menu9.heightInPixels = ButtonSizeW;
-          panel2.addControl(menu9);
-          menu9.onPointerDownObservable.add(() => {
-            alert("3Dプリンターに接続して印刷をします");
-            //exportAsSTL(scene);
-          });
-
-          // 10x5でパーツを表示する
           var buttonId = 0;
           for (var c = 0; c < PartsBody.length; c++) {　
             eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsBody[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
-            eval("num_" + buttonId + ".partstype = 'body';");
             eval("panel3.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
             buttonId++;
@@ -395,7 +316,6 @@
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
-            eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel4.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
             buttonId++;
@@ -405,7 +325,6 @@
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
-            eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel5.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
             buttonId++;
@@ -415,7 +334,6 @@
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
-            eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel6.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
             buttonId++;
@@ -425,8 +343,17 @@
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
-            eval("num_" + buttonId + ".partstype = 'head';");
             eval("panel7.addControl(num_" + buttonId + ");");
+            eval("buttonIcons.push(num_" + buttonId + ");");
+            buttonId++;
+          }
+          for (var c = 0; c < PartsOption.length; c++) {　
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsOption[" + c + "] + '.png?" + Version + "')");
+            eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
+            eval("num_" + buttonId + ".color = 'transparent';");
+            eval("num_" + buttonId + ".partstype = 'head';");
+            eval("panel8.addControl(num_" + buttonId + ");");
             eval("buttonIcons.push(num_" + buttonId + ");");
             buttonId++;
           }
@@ -524,7 +451,7 @@
               SwitchGizmo();
               SetColor();
 
-              
+
                             if (pickedMesh) {
                 ToolPanel1.isVisible = true;
               }else{
@@ -552,6 +479,41 @@
         EditTypeNumber = 1;
         SwitchGizmo();
     });
+
+    var button0 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/delete.png");
+    button0.widthInPixels = 120;
+    button0.heightInPixels = 50;
+    //button1
+    button0.color = "white";
+    //button2.cornerRadius = 5;
+    //button2.background = "green";
+    button0.onPointerUpObservable.add(function() {
+      
+            //for(var i = 0; i< PartsArray.length; i++){
+            //    PartsArray[i].dispose();
+            //}
+            if (pickedMesh) {
+              pickedMesh.dispose();
+              pickedMesh = null;
+
+              pickedMesh = null;
+              SwitchGizmo();
+              SetColor();
+
+
+                            if (pickedMesh) {
+                ToolPanel1.isVisible = true;
+              }else{
+                ToolPanel1.isVisible = false;
+              }
+
+
+            }
+
+
+    });
+
+
     var button2 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move_r.png");
     button2.widthInPixels = ToolButtonWidth;
     button2.heightInPixels = ToolButtonWidth;
@@ -1096,53 +1058,54 @@ var ToolPanel1 = new BABYLON.GUI.StackPanel();
 ToolPanel1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
 ToolPanel1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
 ToolPanel1.widthInPixels = 250;
-ToolPanel1.heightInPixels = 250;
+ToolPanel1.heightInPixels = 300;
 advancedTexture.addControl(ToolPanel1);
 
 ToolPanel1.isVisible = false;
 
-          //ツールの表示用
+          var tpanel1 = new BABYLON.GUI.StackPanel();
+          tpanel1.name = "topHorzStack";
+          tpanel1.heightInPixels = 60;
+          tpanel1.isVertical = false;   
+
           var tpanel2 = new BABYLON.GUI.StackPanel();
           tpanel2.name = "topHorzStack";
           tpanel2.heightInPixels = 30;
           tpanel2.isVertical = false;          
 
-          //ツールの表示用
           var tpanel3 = new BABYLON.GUI.StackPanel();
           tpanel3.name = "topHorzStack";
           tpanel3.heightInPixels = 30;
           tpanel3.isVertical = false;
 
-          //ツールの表示用
           var tpanel4 = new BABYLON.GUI.StackPanel();
           tpanel4.name = "topHorzStack";
           tpanel4.heightInPixels = 30;
           tpanel4.isVertical = false;
 
-          //ツールの表示用
           var tpanel5 = new BABYLON.GUI.StackPanel();
           tpanel5.name = "topHorzStack";
           tpanel5.heightInPixels = 30;
           tpanel5.isVertical = false;
 
-          //ツールの表示用
           var tpanel6 = new BABYLON.GUI.StackPanel();
           tpanel6.name = "topHorzStack";
           tpanel6.heightInPixels = 30;
           tpanel6.isVertical = false;
 
-          //ツールの表示用
           var tpanel7 = new BABYLON.GUI.StackPanel();
           tpanel7.name = "topHorzStack";
           tpanel7.heightInPixels = 30;
           tpanel7.isVertical = false;
 
-          //ツールの表示用
           var tpanel8 = new BABYLON.GUI.StackPanel();
           tpanel8.name = "topHorzStack";
           tpanel8.heightInPixels = 30;
           tpanel8.isVertical = false;
 
+
+tpanel1.addControl(button0);
+ToolPanel1.addControl(tpanel1);
 
 tpanel2.addControl(buttonX1);
 tpanel2.addControl(buttonX2);
