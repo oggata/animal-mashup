@@ -430,6 +430,7 @@
           material.diffuseColor = new BABYLON.Color3(1.0, 0.2, 0.7);
           //sphere.material = material; 
           scene.onPointerDown = function castRay() {
+            rectangle.isVisible = false;
             SetColor();
             var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), camera);
             var hit = scene.pickWithRay(ray);
