@@ -144,7 +144,7 @@
         var EditTypeNumber = 1;
         var ButtonSizeW = 50;
         var IconSizeW = 70;
-        var Version = "v0.0020";
+        var Version = "v00020";
         var createScene = async function () {
           // This creates a basic Babylon Scene object (non-mesh)
           var scene = new BABYLON.Scene(engine);
@@ -381,7 +381,7 @@
           // 10x5でパーツを表示する
           var buttonId = 0;
           for (var c = 0; c < PartsBody.length; c++) {　
-            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsBody[" + c + "] + '.png?11')");
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsBody[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
@@ -391,7 +391,7 @@
             buttonId++;
           }
           for (var c = 0; c < PartsHead.length; c++) {　
-            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsHead[" + c + "] + '.png?11')");
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsHead[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
@@ -401,7 +401,7 @@
             buttonId++;
           }
           for (var c = 0; c < PartsEar.length; c++) {　
-            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsEar[" + c + "] + '.png?11')");
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsEar[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
@@ -411,7 +411,7 @@
             buttonId++;
           }
           for (var c = 0; c < PartsLeg.length; c++) {　
-            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsLeg[" + c + "] + '.png?11')");
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsLeg[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
@@ -421,7 +421,7 @@
             buttonId++;
           }
           for (var c = 0; c < PartsTail.length; c++) {　
-            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsTail[" + c + "] + '.png?11')");
+            eval("var num_" + buttonId + " = BABYLON.GUI.Button.CreateImageOnlyButton('but', './image/icon/' + PartsTail[" + c + "] + '.png?" + Version + "')");
             eval("num_" + buttonId + ".width = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".height = '" + IconSizeW + "px';");
             eval("num_" + buttonId + ".color = 'transparent';");
@@ -514,16 +514,22 @@
               //gizmo.attachedMesh = pickedMesh;
               SwitchGizmo();
               SetColor();
-
-
               if (pickedMesh) {
                 ToolPanel1.isVisible = true;
               }else{
                 ToolPanel1.isVisible = false;
               }
+            }else{
+              pickedMesh = null;
+              SwitchGizmo();
+              SetColor();
 
-
-
+              
+                            if (pickedMesh) {
+                ToolPanel1.isVisible = true;
+              }else{
+                ToolPanel1.isVisible = false;
+              }
             }
           }
     // GUI
