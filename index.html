@@ -387,7 +387,6 @@
           */
           var gizmoLayer = new BABYLON.UtilityLayerRenderer(scene);
           //ギズモ(拡大)
-          // Create the gizmo and attach to the box
           sGizmo = new BABYLON.ScaleGizmo(gizmoLayer);
           sGizmo.attachedMesh = null;
           // Keep the gizmo fixed to local rotation
@@ -406,17 +405,14 @@
             var angle = Math.atan2(dtY, dtX);
             console.log(angle);
           });
+
           //ギズモ(移動)
           mGizmo = new BABYLON.GizmoManager(scene);
           mGizmo.snapDistance = 0.5;
           mGizmo.attachToMesh(null);
-          //manipulator.positionGizmoEnabled = true; 
           mGizmo.usePointerToAttachGizmos = false;
-          // Enable/disable gizmos, all gizmos are on their own layer and will not modify the existing scene (eg. scene.meshes)
           mGizmo.positionGizmoEnabled = true;
-          // By default gizmo's will be rotated to the world but to have gizmos rotate in local space set the following
           mGizmo.gizmos.positionGizmo.updateGizmoRotationToMatchAttachedMesh = true;
-          // Create the 3D UI manager
           var manager = new BABYLON.GUI.GUI3DManager(scene);
           var panel = new BABYLON.GUI.PlanePanel();
           panel.margin = 1.5;
@@ -428,8 +424,8 @@
           panel.position.y = 150;
           manager.addControl(panel);
           panel.linkToTransformNode(anchor);
+
           //押下した時の色のマテリアルを決める
-          // My attempt to color the sphere
           var material = new BABYLON.StandardMaterial(scene);
           material.alpha = 1;
           material.diffuseColor = new BABYLON.Color3(1.0, 0.2, 0.7);
@@ -440,11 +436,12 @@
             var ray = scene.createPickingRay(scene.pointerX, scene.pointerY, BABYLON.Matrix.Identity(), camera);
             var hit = scene.pickWithRay(ray);
             if (hit.pickedMesh) {
-              //createGUIButton(hit.pickedMesh);
               hit.pickedMesh.material = material;
               pickedMesh = hit.pickedMesh;
+            }else{
+              pickedMesh = null;
+            }
               //回転するギズモにアタッチする
-              //gizmo.attachedMesh = pickedMesh;
               SwitchGizmo();
               SetColor();
               if (pickedMesh) {
@@ -452,31 +449,15 @@
               }else{
                 ToolPanel1.isVisible = false;
               }
-            }else{
-              pickedMesh = null;
-              SwitchGizmo();
-              SetColor();
-
-
-                            if (pickedMesh) {
-                ToolPanel1.isVisible = true;
-              }else{
-                ToolPanel1.isVisible = false;
-              }
             }
-          }
     // GUI
     //var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
     var ToolButtonWidth = 25;
     var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
-    //button1.width = "60px"
-    //button1.height = "60px";
     button1.widthInPixels = ToolButtonWidth;
     button1.heightInPixels = ToolButtonWidth;
-    //button1
     button1.color = "white";
-    //button1.cornerRadius = 5;
     button1.background = "green";
     button1.onPointerUpObservable.add(function() {
         console.log("you did it1!");
@@ -507,7 +488,7 @@
               SetColor();
 
 
-                            if (pickedMesh) {
+              if (pickedMesh) {
                 ToolPanel1.isVisible = true;
               }else{
                 ToolPanel1.isVisible = false;
@@ -523,32 +504,19 @@
     var button2 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move_r.png");
     button2.widthInPixels = ToolButtonWidth;
     button2.heightInPixels = ToolButtonWidth;
-    //button1
     button2.color = "white";
-    //button2.cornerRadius = 5;
-    //button2.background = "green";
     button2.onPointerUpObservable.add(function() {
       console.log("you did it2!");
-        //1:移動 2:拡大 3:回転
         EditTypeNumber = 1;
         SwitchGizmo();
-
-
     });
     var button3 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move_b.png");
     button3.widthInPixels = ToolButtonWidth;
     button3.heightInPixels = ToolButtonWidth;
-    //button1
     button3.color = "white";
-    //button3.cornerRadius = 5;
-    //button3.background = "green";
     button3.onPointerUpObservable.add(function() {
-        //1:移動 2:拡大 3:回転
         EditTypeNumber = 1;
         SwitchGizmo();
-
-
-
     });
 
     var button4 = BABYLON.GUI.Button.CreateImageOnlyButton("aaa", "./image/button/move_g.png");
