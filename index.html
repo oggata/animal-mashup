@@ -453,7 +453,7 @@
     // GUI
     //var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
 
-    var ToolButtonWidth = 25;
+    var ToolButtonWidth = 70;
     var button1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "Click Me");
     button1.widthInPixels = ToolButtonWidth;
     button1.heightInPixels = ToolButtonWidth;
@@ -506,7 +506,6 @@
     button2.heightInPixels = ToolButtonWidth;
     button2.color = "white";
     button2.onPointerUpObservable.add(function() {
-      console.log("you did it2!");
         EditTypeNumber = 1;
         SwitchGizmo();
     });
@@ -594,7 +593,7 @@
 
     });
 
-    var ToolButtonWidth2 = 25;
+    var ToolButtonWidth2 = 70;
 
     var buttonX1 = BABYLON.GUI.Button.CreateSimpleButton("but1", "-5");
     buttonX1.widthInPixels = ToolButtonWidth2;
@@ -1031,8 +1030,8 @@
 var ToolPanel1 = new BABYLON.GUI.StackPanel();
 ToolPanel1.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
 ToolPanel1.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_BOTTOM;
-ToolPanel1.widthInPixels = 250;
-ToolPanel1.heightInPixels = 300;
+ToolPanel1.widthInPixels = 600;
+ToolPanel1.heightInPixels = 600;
 advancedTexture.addControl(ToolPanel1);
 
 ToolPanel1.isVisible = false;
@@ -1042,39 +1041,41 @@ ToolPanel1.isVisible = false;
           tpanel1.heightInPixels = 60;
           tpanel1.isVertical = false;   
 
+var panelHeigh = 70;
+
           var tpanel2 = new BABYLON.GUI.StackPanel();
           tpanel2.name = "topHorzStack";
-          tpanel2.heightInPixels = 30;
+          tpanel2.heightInPixels = panelHeigh;
           tpanel2.isVertical = false;          
 
           var tpanel3 = new BABYLON.GUI.StackPanel();
           tpanel3.name = "topHorzStack";
-          tpanel3.heightInPixels = 30;
+          tpanel3.heightInPixels = panelHeigh;
           tpanel3.isVertical = false;
 
           var tpanel4 = new BABYLON.GUI.StackPanel();
           tpanel4.name = "topHorzStack";
-          tpanel4.heightInPixels = 30;
+          tpanel4.heightInPixels = panelHeigh;
           tpanel4.isVertical = false;
 
           var tpanel5 = new BABYLON.GUI.StackPanel();
           tpanel5.name = "topHorzStack";
-          tpanel5.heightInPixels = 30;
+          tpanel5.heightInPixels = panelHeigh;
           tpanel5.isVertical = false;
 
           var tpanel6 = new BABYLON.GUI.StackPanel();
           tpanel6.name = "topHorzStack";
-          tpanel6.heightInPixels = 30;
+          tpanel6.heightInPixels = panelHeigh;
           tpanel6.isVertical = false;
 
           var tpanel7 = new BABYLON.GUI.StackPanel();
           tpanel7.name = "topHorzStack";
-          tpanel7.heightInPixels = 30;
+          tpanel7.heightInPixels = panelHeigh;
           tpanel7.isVertical = false;
 
           var tpanel8 = new BABYLON.GUI.StackPanel();
           tpanel8.name = "topHorzStack";
-          tpanel8.heightInPixels = 30;
+          tpanel8.heightInPixels = panelHeigh;
           tpanel8.isVertical = false;
 
 
